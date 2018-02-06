@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <div class="modal fade" id="ticketModal" tabindex="-1" role="dialog" aria-labelledby="ticketModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ticketModalLabel">เงื่อนไขการจอง</h5>
+          </div>
+          <div class="modal-body">
+            การจองจะทำได้เป็นรอบๆ ในแต่ละรอบมีเวลาเล่น 7 นาที<br>
+            มีทั้งหมด 4 ห้อง แต่ละห้องจะไม่เกิน 5 คนในแต่ละรอบ<br>
+            ค่าเข้า ... บาท<br>
+            บลาๆๆ
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+            <button type="button" class="btn btn-primary" id="acceptButton">โอเค</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmModalLabel">ยืนยันการจอง</h5>
+          </div>
+          <div class="modal-body" id="confirmText">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+            <button type="button" class="btn btn-primary" id="bookButton">ยืนยัน</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <br>
+      <div id="welcome">
+        <h1>Hello, world!</h1>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ticketModal" data-backdrop="static">จองดิ รอไร</button>
+      </div>
+      <div id="booking" style="display:none" class="col-md-12">
+        <label for="input">มากี่คน</label>
+        <select class="form-control" id="input">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+        </select>
+        <br>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">ชื่อคนจอง</span>
+          </div>
+          <input type="text" class="form-control" id="name">
+        </div>
+        <br>
+        <h1>จำนวนที่ว่างที่เหลือในแต่ละรอบ</h1>
+        <br>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">รอบเวลา</th>
+              <th scope="col">ห้อง 1</th>
+              <th scope="col">ห้อง 2</th>
+              <th scope="col">ห้อง 3</th>
+              <th scope="col">ห้อง 4</th>
+            </tr>
+          </thead>
+          <tbody id="table">
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyBNqMxI5VrDfBD0sogvqCxhlYD-ZUB8doE",
+        authDomain: "hail-ticket.firebaseapp.com",
+        databaseURL: "https://hail-ticket.firebaseio.com",
+        projectId: "hail-ticket",
+        storageBucket: "",
+        messagingSenderId: "714587280975"
+      };
+      firebase.initializeApp(config);
+    </script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js" integrity="sha256-pS96pU17yq+gVu4KBQJi38VpSuKN7otMrDQprzf/DWY=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js" integrity="sha256-ABVkpwb9K9PxubvRrHMkk6wmWcIHUE9eBxNZLXYQ84k=" crossorigin="anonymous"></script>
+    <script>
+      let database = firebase.database();
+      $('#acceptButton').click(() => {
+        $('#ticketModal').modal('toggle');
+        $('#welcome').hide();
+        $('#booking').show();
+      });
+      let data, table = {}, max = 5, now = [], num, cftime, cfroom;
+      let confirm = (room, time) => {
+        if(max-parseInt(data[room][time].num) < parseInt($('#input').val())) return false;
+        $('#confirmText').html('จำนวน ' + $('#input').val() + ' คน<br>จองเวลา ' + now[time].format('kk:mm') + '<br>ห้อง ' + room + '<br>จองในนาม : ' + $('#name').val());
+        cftime = time;
+        cfroom = room;
+        $('#confirmModal').modal('show');
+      };
+      $('#bookButton').click(() => {
+        database.ref('/order/').push().set({
+          num: $('#input').val(),
+          time: now[cftime].format('kk:mm'),
+          room: cfroom,
+          name: $('#name').val()
+        });
+        database.ref('/' + cfroom + '/' + cftime + '/').set({
+          num: parseInt(data[cfroom][cftime].num)+parseInt($('#input').val())
+        });
+        $('#confirmModal').modal('hide');
+      });
+      database.ref('/').on('value', snap => {
+        data = snap.val();
+        //console.log(data);
+        $('#table').empty();
+        now[0] = moment();
+        now[0].set({
+          hour: 18,
+          minute: 0,
+          second: 0,
+          millisecond: 0
+        });
+        for(i = 0; i < 36; i++){
+          $('#table').append('<tr><th scope="row">' + now[i].format('kk:mm') + 
+          '</th><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room1\', ' + i + ')">' + (max-data.room1[i].num) + 
+          '</button></td><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room2\', ' + i + ')">' + (max-data.room2[i].num) + 
+          '</button></td><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room3\', ' + i + ')">' + (max-data.room3[i].num) + 
+          '</button></td><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room4\', ' + i + ')">' + (max-data.room4[i].num) + '</button></td></tr>');
+          now[i+1] = now[i].clone().add(10, 'minutes');
+        }
+        num = $('#input').val();
+        $('.num').each((i, e) => {
+          let $e = $(e);
+          //console.log($e.text());
+          if(parseInt($e.text()) < num) $e.addClass('disabled');
+          else $e.removeClass('disabled');
+        });
+      });
+      $('#input').change(() => {
+        num = $('#input').val();
+        $('.num').each((i, e) => {
+          let $e = $(e);
+          //console.log($e.text());
+          if(parseInt($e.text()) < num) $e.addClass('disabled');
+          else $e.removeClass('disabled');
+        });
+      });
+    </script>
+  </body>
+</html>

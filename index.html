@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- Coded by Jew -->
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -6,11 +7,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" integrity="sha256-iXUYfkbVl5itd4bAkFH5mjMEN5ld9t3OHvXX3IU8UxU=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <title>บ้าน 7 จองล่วงหน้า</title>
+    <style>
+      :root {
+        --input-padding-x: .75rem;
+        --input-padding-y: .75rem;
+      }
+      html {
+        position: relative;
+        min-height: 100%;
+      }
+      body {
+        height: 100%;
+        margin-bottom: 60px; /* Margin bottom by footer height */
+        display: -ms-flexbox;
+        display: -webkit-box;
+        display: flex;
+        -ms-flex-align: center;
+        -ms-flex-pack: center;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+      }
+      .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 60px; /* Set the fixed height of the footer here */
+        line-height: 60px; /* Vertically center the text there */
+        background-color: #f5f5f5;
+      }
+      .form-label-group {
+        position: relative;
+        margin-bottom: 1rem;
+      }
 
-    <title>Hello, world!</title>
+      .form-label-group > input,
+      .form-label-group > label {
+        padding: var(--input-padding-y) var(--input-padding-x);
+      }
+
+      .form-label-group > label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        margin-bottom: 0; /* Override default `<label>` margin */
+        line-height: 1.5;
+        color: #495057;
+        border: 1px solid transparent;
+        border-radius: .25rem;
+        transition: all .1s ease-in-out;
+      }
+
+      .form-label-group input::-webkit-input-placeholder {
+        color: transparent;
+      }
+
+      .form-label-group input:-ms-input-placeholder {
+        color: transparent;
+      }
+
+      .form-label-group input::-ms-input-placeholder {
+        color: transparent;
+      }
+
+      .form-label-group input::-moz-placeholder {
+        color: transparent;
+      }
+
+      .form-label-group input::placeholder {
+        color: transparent;
+      }
+
+      .form-label-group input:not(:placeholder-shown) {
+        padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+        padding-bottom: calc(var(--input-padding-y) / 3);
+      }
+
+      .form-label-group input:not(:placeholder-shown) ~ label {
+        padding-top: calc(var(--input-padding-y) / 3);
+        padding-bottom: calc(var(--input-padding-y) / 3);
+        font-size: 12px;
+        color: #777;
+      }
+    </style>
   </head>
   <body>
+    <div class="Jew" style="display: none"> Eiei </div>
     <div class="modal fade" id="ticketModal" tabindex="-1" role="dialog" aria-labelledby="ticketModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -20,8 +109,7 @@
           <div class="modal-body">
             การจองจะทำได้เป็นรอบๆ ในแต่ละรอบมีเวลาเล่น 7 นาที<br>
             มีทั้งหมด 4 ห้อง แต่ละห้องจะไม่เกิน 5 คนในแต่ละรอบ<br>
-            ค่าเข้า ... บาท<br>
-            บลาๆๆ
+            <!--ค่าเข้า ... บาท<br>-->
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
@@ -45,28 +133,60 @@
         </div>
       </div>
     </div>
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="successModalLabel">การจองสำเร็จ</h5>
+          </div>
+          <div class="modal-body" id="successBody">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">โอเค</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <br>
-      <div id="welcome">
-        <h1>Hello, world!</h1>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ticketModal" data-backdrop="static">จองดิ รอไร</button>
+      <div id="welcome" style="display:none">
+        <h1>บ้าน 7 (Merlin's Oath)</h1>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ticketModal" data-backdrop="static">จองเลย!</button>
       </div>
-      <div id="booking" style="display:none" class="col-md-12">
-        <label for="input">มากี่คน</label>
-        <select class="form-control" id="input">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-        </select>
-        <br>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">ชื่อคนจอง</span>
+      <div id="booking" style="display:none" class="col-sm-12">
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-header">
+              <h5>ข้อมูล</h5>
+            </div>
+            <div class="card-body">
+              <form novalidate>
+                <div class="form-group form-row">
+                  <div class="col-sm-4">
+                    <label for="input" class="col-form-label">มากี่คน</label>
+                  </div>
+                  <div class="col-sm-5">
+                    <select class="form-control" id="input">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                      <option>6</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group form-row" id="nameDiv">
+                  <div class="col-sm-9">
+                    <div class="form-label-group">
+                      <input id="name" class="form-control" placeholder="" autocomplete="off" maxlength="50">
+                      <label for="name">ชื่อคนจอง</label>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
-          <input type="text" class="form-control" id="name">
         </div>
         <br>
         <h1>จำนวนที่ว่างที่เหลือในแต่ละรอบ</h1>
@@ -75,17 +195,23 @@
           <thead>
             <tr>
               <th scope="col">รอบเวลา</th>
-              <th scope="col">ห้อง 1</th>
-              <th scope="col">ห้อง 2</th>
-              <th scope="col">ห้อง 3</th>
-              <th scope="col">ห้อง 4</th>
+              <th scope="col">ห้องสร้อย</th>
+              <th scope="col">ห้องจอก</th>
+              <th scope="col">ห้องคทา</th>
+              <th scope="col">ห้องดาบ</th>
             </tr>
           </thead>
           <tbody id="table">
           </tbody>
         </table>
+        <br>
       </div>
     </div>
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">© Hailnight 2018 Wondermore, Baan 7 (Merlin's Oath)</span>
+      </div>
+    </footer>
     <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
     <script>
       // Initialize Firebase
@@ -99,38 +225,82 @@
       };
       firebase.initializeApp(config);
     </script>
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js" integrity="sha256-pS96pU17yq+gVu4KBQJi38VpSuKN7otMrDQprzf/DWY=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js" integrity="sha256-ABVkpwb9K9PxubvRrHMkk6wmWcIHUE9eBxNZLXYQ84k=" crossorigin="anonymous"></script>
-    <script>
-      let database = firebase.database();
-      $('#acceptButton').click(() => {
+    <script defer>
+      'use strict';
+
+      var database = firebase.database();
+      $('#welcome').show();
+      $('#acceptButton').click(function () {
         $('#ticketModal').modal('toggle');
         $('#welcome').hide();
         $('#booking').show();
       });
-      let data, table = {}, max = 5, now = [], num, cftime, cfroom;
-      let confirm = (room, time) => {
-        if(max-parseInt(data[room][time].num) < parseInt($('#input').val())) return false;
-        $('#confirmText').html('จำนวน ' + $('#input').val() + ' คน<br>จองเวลา ' + now[time].format('kk:mm') + '<br>ห้อง ' + room + '<br>จองในนาม : ' + $('#name').val());
+      var data = void 0,
+          table = {},
+          max = 5,
+          now = [],
+          num = void 0,
+          cftime = void 0,
+          cfroom = void 0, roomname = {room1: 'ห้องสร้อย', room2: 'ห้องจอก', room3: 'ห้องคทา', room4: 'ห้องดาบ'}
+      $('#name').on('input focusout', function(e) {
+        if($('#name').val() == ''){
+          $('#name').addClass('is-invalid');
+          if($('#blankWarn').length == 0) $('#nameDiv').append('<div id="blankWarn" class="col-sm-3"><small class="text-danger">กรุณาระบุชื่อ</small></div>');
+        }
+        else {
+          $('#blankWarn').remove();
+          $('#name').removeClass('is-invalid');
+        }
+      });
+      var confirm = function confirm(room, time) {
+        if ($('#name').val() == ''){
+          $('#name').trigger('input');
+          return false;
+        }
+        if (max - parseInt(data[room][time].num) < parseInt($('#input').val())) return false; // useless
+        $('#confirmText').html('จำนวน ' + $('#input').val() + ' คน<br>จองเวลา ' + now[time].format('kk:mm') + '<br>' + roomname[room] + '<br>จองในนาม : ' + $('#name').val().replace('<', '&lt;') + '<br><br><div class="input-group"><div class="input-group-prepend"><span class="input-group-text">หมายเหตุ (ถ้ามี)</span></div><input type="text" class="form-control" id="note"></div>');
         cftime = time;
         cfroom = room;
-        $('#confirmModal').modal('show');
+        $('#confirmModal').modal({
+          show: true,
+          backdrop: 'static'
+        });
       };
-      $('#bookButton').click(() => {
+      $('#bookButton').click(function () {
+        var ticket = '' + cfroom[4] + now[cftime].format('kkmm') + num + '-' + $('#name').val();
         database.ref('/order/').push().set({
           num: $('#input').val(),
           time: now[cftime].format('kk:mm'),
-          room: cfroom,
-          name: $('#name').val()
+          room: roomname[cfroom],
+          name: $('#name').val(),
+          note: $('#note').val(),
+          ticket: ticket
         });
         database.ref('/' + cfroom + '/' + cftime + '/').set({
-          num: parseInt(data[cfroom][cftime].num)+parseInt($('#input').val())
+          num: parseInt(data[cfroom][cftime].num) + parseInt($('#input').val())
         });
         $('#confirmModal').modal('hide');
+        $('#confirmModal').one('hidden.bs.modal', function() {
+          $('#successBody').html('กรุณาบันทึกภาพหน้าจอนี้ไว้เพื่อยืนยันการจองที่หน้างาน<br><br><div style="text-align: center" id="imgDiv"><img id="img" src="https://api.qrserver.com/v1/create-qr-code/?data=' + ticket + '&amp;size=250x250" alt="กำลังโหลด หากรูปไม่ขึ้น ให้กดปุ่มด้านล่าง" /></div><div style="text-align: center"><small>' + ticket + '</small></div><br><div style="text-align: center"><button type="button" class="btn btn-warning" id="reloadButton">รูปไม่ขึ้น ?</button></div>');
+          $('#successModal').modal({
+            keyboard: false,
+            show: true,
+            backdrop: 'static'
+          });
+          //$('#reloadButton').off();
+          var f = function() {
+            $('#successBody').html('กรุณาบันทึกภาพหน้าจอนี้ไว้เพื่อยืนยันการจองที่หน้างาน<br><br><div style="text-align: center" id="imgDiv"><img id="img" src="https://api.qrserver.com/v1/create-qr-code/?data=' + ticket + '&amp;size=250x250" alt="กำลังโหลด หากรูปไม่ขึ้น ให้กดปุ่มด้านล่าง" /></div><div style="text-align: center"><small>' + ticket + '</small></div><br><div style="text-align: center"><button type="button" class="btn btn-warning" id="reloadButton">รูปไม่ขึ้น ?</button></div>');
+            // console.log('done');
+            $('#reloadButton').one('click', f);
+          };
+          $('#reloadButton').one('click', f);
+        });
       });
-      database.ref('/').on('value', snap => {
+      database.ref('/').on('value', function (snap) {
         data = snap.val();
         //console.log(data);
         $('#table').empty();
@@ -141,29 +311,25 @@
           second: 0,
           millisecond: 0
         });
-        for(i = 0; i < 36; i++){
-          $('#table').append('<tr><th scope="row">' + now[i].format('kk:mm') + 
-          '</th><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room1\', ' + i + ')">' + (max-data.room1[i].num) + 
-          '</button></td><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room2\', ' + i + ')">' + (max-data.room2[i].num) + 
-          '</button></td><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room3\', ' + i + ')">' + (max-data.room3[i].num) + 
-          '</button></td><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room4\', ' + i + ')">' + (max-data.room4[i].num) + '</button></td></tr>');
-          now[i+1] = now[i].clone().add(10, 'minutes');
+        for (var i = 0; i < 36; i++) {
+          $('#table').append('<tr><th scope="row">' + now[i].format('kk:mm') + '</th><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room1\', ' + i + ')">' + (max - data.room1[i].num) + '</button></td><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room2\', ' + i + ')">' + (max - data.room2[i].num) + '</button></td><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room3\', ' + i + ')">' + (max - data.room3[i].num) + '</button></td><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room4\', ' + i + ')">' + (max - data.room4[i].num) + '</button></td></tr>');
+          now[i + 1] = now[i].clone().add(10, 'minutes');
         }
         num = $('#input').val();
-        $('.num').each((i, e) => {
-          let $e = $(e);
+        $('.num').each(function (i, e) {
+          var $e = $(e);
           //console.log($e.text());
-          if(parseInt($e.text()) < num) $e.addClass('disabled');
-          else $e.removeClass('disabled');
+          if (parseInt($e.text()) < num) $e.attr('disabled', '');
+          else $e.removeAttr('disabled');
         });
       });
-      $('#input').change(() => {
+      $('#input').change(function () {
         num = $('#input').val();
-        $('.num').each((i, e) => {
-          let $e = $(e);
+        $('.num').each(function (i, e) {
+          var $e = $(e);
           //console.log($e.text());
-          if(parseInt($e.text()) < num) $e.addClass('disabled');
-          else $e.removeClass('disabled');
+          if (parseInt($e.text()) < num) $e.attr('disabled', '');
+          else $e.removeAttr('disabled');
         });
       });
     </script>

@@ -1,0 +1,61 @@
+<!doctype html>
+<!-- Coded by Jew -->
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <div class="Jew" style="display: none"> Eiei
+    </div>
+    <div class="container">
+      <br>
+      <div class="card">
+        <div class="card-header">
+          รายการจอง
+        </div>
+        <div id="listDiv">
+          <ul class="list-group list-group-flush list" id="list">
+          </ul>
+        </div>
+      </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyBNqMxI5VrDfBD0sogvqCxhlYD-ZUB8doE",
+        authDomain: "hail-ticket.firebaseapp.com",
+        databaseURL: "https://hail-ticket.firebaseio.com",
+        projectId: "hail-ticket",
+        storageBucket: "",
+        messagingSenderId: "714587280975"
+      };
+      firebase.initializeApp(config);
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js" integrity="sha256-pS96pU17yq+gVu4KBQJi38VpSuKN7otMrDQprzf/DWY=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js" integrity="sha256-YqOIp4MygNx9/lcWr5lpcR88Ki/MNMWvJJkH0eK+fHM=" crossorigin="anonymous"></script>
+    <script>
+      var database = firebase.database(), value = [], myList;
+      database.ref('/order/').on('value', function(snap) {
+        $('#list').empty();
+        var data = snap.val(), i;
+        for(i in data) {
+          console.log(JSON.stringify(data[i]));
+          $('#list').append('<li class="list-group-item">' + JSON.stringify(data[i]) + '</li>');
+          value.push(data[i]);
+        }
+      });
+    </script>
+  </body>
+</html>

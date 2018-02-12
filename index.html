@@ -8,14 +8,11 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" integrity="sha256-iXUYfkbVl5itd4bAkFH5mjMEN5ld9t3OHvXX3IU8UxU=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/> -->
+    <link rel="stylesheet" href="/bootstrap.min.css"/>
     
     <title>บ้าน 7 จองล่วงหน้า</title>
     <style>
-      :root {
-        --input-padding-x: .75rem;
-        --input-padding-y: .75rem;
-      }
       html {
         position: relative;
         min-height: 100%;
@@ -23,15 +20,6 @@
       body {
         height: 100%;
         margin-bottom: 60px; /* Margin bottom by footer height */
-        display: -ms-flexbox;
-        display: -webkit-box;
-        display: flex;
-        -ms-flex-align: center;
-        -ms-flex-pack: center;
-        -webkit-box-align: center;
-        align-items: center;
-        -webkit-box-pack: center;
-        justify-content: center;
       }
       .footer {
         position: absolute;
@@ -39,62 +27,18 @@
         width: 100%;
         height: 60px; /* Set the fixed height of the footer here */
         line-height: 60px; /* Vertically center the text there */
-        background-color: #f5f5f5;
+        background-color: var(--purple);
       }
-      .form-label-group {
-        position: relative;
-        margin-bottom: 1rem;
+      .footer .text-muted {
+        color: whitesmoke !important;
       }
-
-      .form-label-group > input,
-      .form-label-group > label {
-        padding: var(--input-padding-y) var(--input-padding-x);
+      .btn-primary {
+        border-color: fuchsia;
+        background-color: fuchsia;
       }
-
-      .form-label-group > label {
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: block;
-        width: 100%;
-        margin-bottom: 0; /* Override default `<label>` margin */
-        line-height: 1.5;
-        color: #495057;
-        border: 1px solid transparent;
-        border-radius: .25rem;
-        transition: all .1s ease-in-out;
-      }
-
-      .form-label-group input::-webkit-input-placeholder {
-        color: transparent;
-      }
-
-      .form-label-group input:-ms-input-placeholder {
-        color: transparent;
-      }
-
-      .form-label-group input::-ms-input-placeholder {
-        color: transparent;
-      }
-
-      .form-label-group input::-moz-placeholder {
-        color: transparent;
-      }
-
-      .form-label-group input::placeholder {
-        color: transparent;
-      }
-
-      .form-label-group input:not(:placeholder-shown) {
-        padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
-        padding-bottom: calc(var(--input-padding-y) / 3);
-      }
-
-      .form-label-group input:not(:placeholder-shown) ~ label {
-        padding-top: calc(var(--input-padding-y) / 3);
-        padding-bottom: calc(var(--input-padding-y) / 3);
-        font-size: 12px;
-        color: #777;
+      .btn-primary:hover {
+        border-color: purple;
+        background-color: purple;
       }
     </style>
   </head>
@@ -153,57 +97,67 @@
         <h1>บ้าน 7 (Merlin's Oath)</h1>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ticketModal" data-backdrop="static">จองเลย!</button>
       </div>
-      <div id="booking" style="display:none" class="col-sm-12">
-        <div class="col-sm-6">
-          <div class="card">
-            <div class="card-header">
-              <h5>ข้อมูล</h5>
-            </div>
-            <div class="card-body">
-              <form novalidate>
-                <div class="form-group form-row">
-                  <div class="col-sm-4">
-                    <label for="input" class="col-form-label">มากี่คน</label>
-                  </div>
-                  <div class="col-sm-5">
-                    <select class="form-control" id="input">
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                      <option>6</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group form-row" id="nameDiv">
-                  <div class="col-sm-9">
-                    <div class="form-label-group">
-                      <input id="name" class="form-control" placeholder="" autocomplete="off" maxlength="50">
-                      <label for="name">ชื่อคนจอง</label>
+      <div id="booking" style="display:none" class="">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>ข้อมูล</h5>
+              </div>
+              <div class="card-body">
+                <form novalidate>
+                  <div class="form-group form-row">
+                    <div class="col-md-4">
+                      <label for="input" class="col-form-label">มากี่คน</label>
+                    </div>
+                    <div class="col-md-5">
+                      <select class="form-control" id="input">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                      </select>
                     </div>
                   </div>
-                </div>
-              </form>
+                  <div class="form-group form-row" id="nameDiv">
+                    <div class="col-md-4">
+                      <label for="name">ชื่อคนจอง</label>
+                    </div>
+                    <div class="col-md-5">
+                      <input id="name" class="form-control" placeholder="ชื่อคนจอง" autocomplete="off" maxlength="50">
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
         <br>
-        <h1>จำนวนที่ว่างที่เหลือในแต่ละรอบ</h1>
+        <div class="row">
+          <div class="col">
+            <h3>จำนวนที่ว่างที่เหลือในแต่ละรอบ</h3>
+          </div>
+        </div>
         <br>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">รอบเวลา</th>
-              <th scope="col">ห้องสร้อย</th>
-              <th scope="col">ห้องจอก</th>
-              <th scope="col">ห้องคทา</th>
-              <th scope="col">ห้องดาบ</th>
-            </tr>
-          </thead>
-          <tbody id="table">
-          </tbody>
-        </table>
+        <div class="row">
+          <div class="col">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">รอบเวลา</th>
+                  <th scope="col">ห้องสร้อย</th>
+                  <th scope="col">ห้องจอก</th>
+                  <th scope="col">ห้องคทา</th>
+                  <th scope="col">ห้องดาบ</th>
+                </tr>
+              </thead>
+              <tbody id="table">
+              </tbody>
+            </table>
+          </div>
+        </div>
         <br>
       </div>
     </div>
@@ -250,7 +204,7 @@
       $('#name').on('input focusout', e => {
         if($('#name').val() == ''){
           $('#name').addClass('is-invalid');
-          if($('#blankWarn').length == 0) $('#nameDiv').append('<div id="blankWarn" class="col-sm-3"><small class="text-danger">กรุณาระบุชื่อ</small></div>');
+          if($('#blankWarn').length == 0) $('#nameDiv').append('<div id="blankWarn" class="col-md-3"><small class="text-danger">กรุณาระบุชื่อ</small></div>');
         }
         else {
           $('#blankWarn').remove();

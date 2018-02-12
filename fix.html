@@ -45,12 +45,10 @@
         position: relative;
         margin-bottom: 1rem;
       }
-
       .form-label-group > input,
       .form-label-group > label {
         padding: var(--input-padding-y) var(--input-padding-x);
       }
-
       .form-label-group > label {
         position: absolute;
         top: 0;
@@ -64,32 +62,25 @@
         border-radius: .25rem;
         transition: all .1s ease-in-out;
       }
-
       .form-label-group input::-webkit-input-placeholder {
         color: transparent;
       }
-
       .form-label-group input:-ms-input-placeholder {
         color: transparent;
       }
-
       .form-label-group input::-ms-input-placeholder {
         color: transparent;
       }
-
       .form-label-group input::-moz-placeholder {
         color: transparent;
       }
-
       .form-label-group input::placeholder {
         color: transparent;
       }
-
       .form-label-group input:not(:placeholder-shown) {
         padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
         padding-bottom: calc(var(--input-padding-y) / 3);
       }
-
       .form-label-group input:not(:placeholder-shown) ~ label {
         padding-top: calc(var(--input-padding-y) / 3);
         padding-bottom: calc(var(--input-padding-y) / 3);
@@ -215,7 +206,7 @@
     <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
     <script>
       // Initialize Firebase
-      let config = {
+      var config = {
         apiKey: "AIzaSyBNqMxI5VrDfBD0sogvqCxhlYD-ZUB8doE",
         authDomain: "hail-ticket.firebaseapp.com",
         databaseURL: "https://hail-ticket.firebaseio.com",
@@ -229,25 +220,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js" integrity="sha256-pS96pU17yq+gVu4KBQJi38VpSuKN7otMrDQprzf/DWY=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js" integrity="sha256-ABVkpwb9K9PxubvRrHMkk6wmWcIHUE9eBxNZLXYQ84k=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js" integrity="sha256-FiZMk1zgTeujzf/+vomWZGZ9r00+xnGvOgXoj0Jo1jA=" crossorigin="anonymous"></script>
-    <script defer type="text/babel">
+    <script defer>
       'use strict';
-
-      let database = firebase.database();
+      var database = firebase.database();
       $('#welcome').show();
       $('#acceptButton').click(function () {
         $('#ticketModal').modal('toggle');
         $('#welcome').hide();
         $('#booking').show();
       });
-      let data = void 0,
+      var data = void 0,
           table = {},
           max = 5,
           now = [],
           num = void 0,
           cftime = void 0,
           cfroom = void 0, roomname = {room1: 'ห้องสร้อย', room2: 'ห้องจอก', room3: 'ห้องคทา', room4: 'ห้องดาบ'}
-      $('#name').on('input focusout', e => {
+      $('#name').on('input focusout', function(e) {
         if($('#name').val() == ''){
           $('#name').addClass('is-invalid');
           if($('#blankWarn').length == 0) $('#nameDiv').append('<div id="blankWarn" class="col-sm-3"><small class="text-danger">กรุณาระบุชื่อ</small></div>');
@@ -257,7 +246,7 @@
           $('#name').removeClass('is-invalid');
         }
       });
-      let confirm = (room, time) => {
+      var confirm = function confirm(room, time) {
         if ($('#name').val() == ''){
           $('#name').trigger('input');
           return false;
@@ -271,8 +260,8 @@
           backdrop: 'static'
         });
       };
-      $('#bookButton').click(() => {
-        let ticket = '' + cfroom[4] + now[cftime].format('kkmm') + num + '-' + $('#name').val();
+      $('#bookButton').click(function () {
+        var ticket = '' + cfroom[4] + now[cftime].format('kkmm') + num + '-' + $('#name').val();
         database.ref('/order/').push().set({
           num: $('#input').val(),
           time: now[cftime].format('kk:mm'),
@@ -285,7 +274,7 @@
           num: parseInt(data[cfroom][cftime].num) + parseInt($('#input').val())
         });
         $('#confirmModal').modal('hide');
-        $('#confirmModal').one('hidden.bs.modal', () => {
+        $('#confirmModal').one('hidden.bs.modal', function() {
           $('#successBody').html('กรุณาบันทึกภาพหน้าจอนี้ไว้เพื่อยืนยันการจองที่หน้างาน<br><br><div style="text-align: center" id="imgDiv"><img id="img" src="https://api.qrserver.com/v1/create-qr-code/?data=' + ticket + '&amp;size=250x250" alt="กำลังโหลด หากรูปไม่ขึ้น ให้กดปุ่มด้านล่าง" /></div><div style="text-align: center"><small>' + ticket + '</small></div><br><div style="text-align: center"><button type="button" class="btn btn-warning" id="reloadButton">รูปไม่ขึ้น ?</button></div>');
           $('#successModal').modal({
             keyboard: false,
@@ -293,7 +282,7 @@
             backdrop: 'static'
           });
           //$('#reloadButton').off();
-          let f = () => {
+          var f = function() {
             $('#successBody').html('กรุณาบันทึกภาพหน้าจอนี้ไว้เพื่อยืนยันการจองที่หน้างาน<br><br><div style="text-align: center" id="imgDiv"><img id="img" src="https://api.qrserver.com/v1/create-qr-code/?data=' + ticket + '&amp;size=250x250" alt="กำลังโหลด หากรูปไม่ขึ้น ให้กดปุ่มด้านล่าง" /></div><div style="text-align: center"><small>' + ticket + '</small></div><br><div style="text-align: center"><button type="button" class="btn btn-warning" id="reloadButton">รูปไม่ขึ้น ?</button></div>');
             // console.log('done');
             $('#reloadButton').one('click', f);
@@ -301,7 +290,7 @@
           $('#reloadButton').one('click', f);
         });
       });
-      database.ref('/').on('value', snap => {
+      database.ref('/').on('value', function (snap) {
         data = snap.val();
         //console.log(data);
         $('#table').empty();
@@ -312,22 +301,22 @@
           second: 0,
           millisecond: 0
         });
-        for (let i = 0; i < 36; i++) {
+        for (var i = 0; i < 36; i++) {
           $('#table').append('<tr><th scope="row">' + now[i].format('kk:mm') + '</th><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room1\', ' + i + ')">' + (max - data.room1[i].num) + '</button></td><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room2\', ' + i + ')">' + (max - data.room2[i].num) + '</button></td><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room3\', ' + i + ')">' + (max - data.room3[i].num) + '</button></td><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room4\', ' + i + ')">' + (max - data.room4[i].num) + '</button></td></tr>');
           now[i + 1] = now[i].clone().add(10, 'minutes');
         }
         num = $('#input').val();
-        $('.num').each((i, e) => {
-          let $e = $(e);
+        $('.num').each(function (i, e) {
+          var $e = $(e);
           //console.log($e.text());
           if (parseInt($e.text()) < num) $e.attr('disabled', '');
           else $e.removeAttr('disabled');
         });
       });
-      $('#input').change(() => {
+      $('#input').change(function () {
         num = $('#input').val();
-        $('.num').each((i, e) => {
-          let $e = $(e);
+        $('.num').each(function (i, e) {
+          var $e = $(e);
           //console.log($e.text());
           if (parseInt($e.text()) < num) $e.attr('disabled', '');
           else $e.removeAttr('disabled');

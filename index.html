@@ -19,13 +19,13 @@
       }
       body {
         height: 100%;
-        margin-bottom: 120px; /* Margin bottom by footer height */
+        margin-bottom: 60px; /* Margin bottom by footer height */
       }
       .footer {
         position: absolute;
         bottom: 0;
-        width: 100%;
-        /* height: 60px; /* Set the fixed height of the footer here */
+        min-width: 100%;
+        height: 60px; /* Set the fixed height of the footer here */
         line-height: 60px; /* Vertically center the text there */
         background-color: var(--purple);
       }
@@ -48,11 +48,11 @@
         border-color: purple !important;
         background-color: purple !important;
       }
-      .btn-primary.disabled, .btn-primary:disabled {
+      .btn-success.disabled, .btn-success:disabled {
         border-color: var(--red);
         background-color: var(--red);
       }
-      .btn-primary:disabled:active {
+      .btn-success:disabled:active {
         border-color: var(--red) !important;
         background-color: var(--red) !important;
       }
@@ -68,7 +68,7 @@
           </div>
           <div class="modal-body">
             การจองจะทำได้เป็นรอบๆ ในแต่ละรอบมีเวลาเล่น 7 นาที<br>
-            มีทั้งหมด 4 ห้อง แต่ละห้องจะไม่เกิน 5 คนในแต่ละรอบ<br>
+            มีทั้งหมด 4 ห้อง แต่ละห้องจำกัด 4-8 คนในแต่ละรอบ<br>
             <!--ค่าเข้า ... บาท<br>-->
           </div>
           <div class="modal-footer">
@@ -128,12 +128,11 @@
                     </div>
                     <div class="col-md-5">
                       <select class="form-control" id="input">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
                         <option>4</option>
                         <option>5</option>
                         <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
                       </select>
                     </div>
                   </div>
@@ -179,7 +178,7 @@
     </div>
     <footer class="footer">
       <div class="container">
-        <span class="text-muted">© Hailnight 2018 Wondermore, Baan 7 (Merlin's Oath)</span>
+        <span class="text-muted"><nobr>© Hailnight 2018 Wondermore, Baan 7 (Merlin's Oath)</nobr></span>
       </div>
     </footer>
     <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
@@ -200,6 +199,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js" integrity="sha256-ABVkpwb9K9PxubvRrHMkk6wmWcIHUE9eBxNZLXYQ84k=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js" integrity="sha256-FiZMk1zgTeujzf/+vomWZGZ9r00+xnGvOgXoj0Jo1jA=" crossorigin="anonymous"></script>
+    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
     <script defer type="text/babel">
       'use strict';
 
@@ -212,7 +212,6 @@
       });
       let data = void 0,
           table = {},
-          max = 5,
           now = [],
           num = void 0,
           cftime = void 0,
@@ -232,7 +231,6 @@
           $('#name').trigger('input');
           return false;
         }
-        if (max - parseInt(data[room][time].num) < parseInt($('#input').val())) return false; // useless
         $('#confirmText').html('จำนวน ' + $('#input').val() + ' คน<br>จองเวลา ' + now[time].format('kk:mm') + '<br>' + roomname[room] + '<br>จองในนาม : ' + $('#name').val().replace('<', '&lt;') + '<br><br><div class="input-group"><div class="input-group-prepend"><span class="input-group-text">หมายเหตุ (ถ้ามี)</span></div><input type="text" class="form-control" id="note"></div>');
         cftime = time;
         cfroom = room;
@@ -283,25 +281,10 @@
           millisecond: 0
         });
         for (let i = 0; i < 36; i++) {
-          $('#table').append('<tr><th scope="row">' + now[i].format('kk:mm') + '</th><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room1\', ' + i + ')">' + (max - data.room1[i].num) + '</button></td><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room2\', ' + i + ')">' + (max - data.room2[i].num) + '</button></td><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room3\', ' + i + ')">' + (max - data.room3[i].num) + '</button></td><td><button type="button" class="btn btn-primary num" onclick="confirm(\'room4\', ' + i + ')">' + (max - data.room4[i].num) + '</button></td></tr>');
+          $('#table').append('<tr><th scope="row">' + now[i].format('kk:mm') + '</th><td><button type="button" class="btn btn-success num" onclick="confirm(\'room1\', ' + i + ')"' + (data.room1[i].num == 0 ? '><i class="fas fa-check"></i>' : ' disabled><i class="fas fa-times"></i>') + '</button></td><td><button type="button" class="btn btn-success num" onclick="confirm(\'room2\', ' + i + ')"' + (data.room2[i].num == 0 ? '><i class="fas fa-check"></i>' : ' disabled><i class="fas fa-times"></i>') + '</button></td><td><button type="button" class="btn btn-success num" onclick="confirm(\'room3\', ' + i + ')"' + (data.room3[i].num == 0 ? '><i class="fas fa-check"></i>' : ' disabled><i class="fas fa-times"></i>') + '</button></td><td><button type="button" class="btn btn-success num" onclick="confirm(\'room4\', ' + i + ')"' + (data.room4[i].num == 0 ? '><i class="fas fa-check"></i>' : ' disabled><i class="fas fa-times"></i>') + '</button></td></tr>');
           now[i + 1] = now[i].clone().add(10, 'minutes');
         }
         num = $('#input').val();
-        $('.num').each((i, e) => {
-          let $e = $(e);
-          //console.log($e.text());
-          if (parseInt($e.text()) < num) $e.attr('disabled', '');
-          else $e.removeAttr('disabled');
-        });
-      });
-      $('#input').change(() => {
-        num = $('#input').val();
-        $('.num').each((i, e) => {
-          let $e = $(e);
-          //console.log($e.text());
-          if (parseInt($e.text()) < num) $e.attr('disabled', '');
-          else $e.removeAttr('disabled');
-        });
       });
     </script>
   </body>

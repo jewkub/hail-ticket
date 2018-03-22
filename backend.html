@@ -56,7 +56,7 @@
           let x = $('<li class="list-group-item"></li>').appendTo('#list');
           // let x = $('#list').append('<li class="list-group-item"></li>');
           _.keys(data[i]).forEach(e => {
-            x.append('<p>' + e + ': ' + data[i][e] + '</p>')
+            x.append('<p>' + e + ': ' + data[i][e].replace('<', '&lt;') + '</p>')
           });
           value.push(data[i]);
         }

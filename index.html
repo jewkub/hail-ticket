@@ -255,19 +255,18 @@
         });
         $('#confirmModal').modal('hide');
         $('#confirmModal').one('hidden.bs.modal', () => {
-          $('#successBody').html('กรุณาบันทึกภาพหน้าจอนี้ไว้เพื่อยืนยันการจองที่หน้างาน<br><br><div style="text-align: center" id="imgDiv"><img id="img" src="https://api.qrserver.com/v1/create-qr-code/?data=' + ticket + '&amp;size=250x250" alt="กำลังโหลด หากรูปไม่ขึ้น ให้กดปุ่มด้านล่าง" /></div><div style="text-align: center"><small>' + ticket + '</small></div><br><div style="text-align: center"><button type="button" class="btn btn-warning" id="reloadButton">รูปไม่ขึ้น ?</button></div>');
+          // $('#successBody').html('กรุณาบันทึกภาพหน้าจอนี้ไว้เพื่อยืนยันการจองที่หน้างาน<br><br><div style="text-align: center" id="imgDiv"><img id="img" src="https://api.qrserver.com/v1/create-qr-code/?data=' + ticket + '&amp;size=250x250" alt="กำลังโหลด หากรูปไม่ขึ้น ให้กดปุ่มด้านล่าง" /></div><div style="text-align: center"><small>' + ticket + '</small></div><br><div style="text-align: center"><button type="button" class="btn btn-warning" id="reloadButton">รูปไม่ขึ้น ?</button></div>');
+          let f = () => {
+            $('#successBody').html('กรุณาบันทึกภาพหน้าจอนี้ไว้เพื่อยืนยันการจองที่หน้างาน<br><br><div style="text-align: center" id="imgDiv"><img id="img" src="https://api.qrserver.com/v1/create-qr-code/?data=' + roomname[cfroom] + '%20' + now[cftime].format('kk:mm') + '&amp;size=250x250" alt="กำลังโหลด หากรูปไม่ขึ้น ให้กดปุ่มด้านล่าง" /></div><div style="text-align: center"><small>' + ticket.replace('<', '&lt;') + '</small></div><br><div style="text-align: center"><button type="button" class="btn btn-warning" id="reloadButton">รูปไม่ขึ้น ?</button></div>');
+            // console.log('done');
+            $('#reloadButton').one('click', f);
+          };
+          f();
           $('#successModal').modal({
             keyboard: false,
             show: true,
             backdrop: 'static'
           });
-          //$('#reloadButton').off();
-          let f = () => {
-            $('#successBody').html('กรุณาบันทึกภาพหน้าจอนี้ไว้เพื่อยืนยันการจองที่หน้างาน<br><br><div style="text-align: center" id="imgDiv"><img id="img" src="https://api.qrserver.com/v1/create-qr-code/?data=' + ticket + '&amp;size=250x250" alt="กำลังโหลด หากรูปไม่ขึ้น ให้กดปุ่มด้านล่าง" /></div><div style="text-align: center"><small>' + ticket + '</small></div><br><div style="text-align: center"><button type="button" class="btn btn-warning" id="reloadButton">รูปไม่ขึ้น ?</button></div>');
-            // console.log('done');
-            $('#reloadButton').one('click', f);
-          };
-          $('#reloadButton').one('click', f);
         });
       });
       database.ref('/').on('value', snap => {
